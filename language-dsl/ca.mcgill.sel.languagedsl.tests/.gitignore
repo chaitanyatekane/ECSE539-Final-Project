@@ -1,0 +1,12 @@
+/test-bin/
+bin
+target
+generated
+generated-sources
+src-gen
+xtend-gen
+.antlr-generator-*.jar
+.DS_Store
+.settings
+.metadata
+

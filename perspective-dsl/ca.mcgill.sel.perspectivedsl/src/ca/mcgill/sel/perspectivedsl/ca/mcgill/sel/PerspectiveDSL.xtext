@@ -1,0 +1,262 @@
+grammar ca.mcgill.sel.perspectivedsl.ca.mcgill.sel.PerspectiveDSL with org.eclipse.xtext.common.Terminals
+
+generate perspectiveDSL "http://www.mcgill.ca/sel/perspectivedsl/ca/mcgill/sel/PerspectiveDSL"
+
+PerspectiveModel:
+    (perspectives += Perspective)*
+;
+
+
+Perspective:
+    'perspective' '{'
+    
+    	'name'':' name = STRING';'
+        // to dictate the model shown by default with the perspective
+        ('default'':' isDefault = ID';')?
+        
+        // customizes the perspective to support persistence for both
+        // language models and the perspective. Note that in TouchCORE,
+        // the scene should be used as the parameter since the model element mappings are contained
+        // in the concern of the models. The perspective containing the model element
+        // mappings is only for formal description of the Thesis work.
+        // See sample DSL models for further illustration.
+        ('savePerspective'':' savePerspective = STRING';')?
+        ('saveModel'':' saveModel = STRING';')?
+        
+        // Allowing the generated code to get the current perspective, current scene, and current role name
+        // when a redefined perspective action is called
+        'currentPerspective' ':' currentPerspective = STRING';'
+        'perspectiveScene' ':' perspectiveScene = STRING';'
+        'currentRoleName' ':' currentRoleName = STRING';'
+        
+        // When a root model is mapped with another regular language element,
+        // a facade call is required to call the recursive action of the regular 
+        // language element to propagate the changes after creating the model in
+        // question. See sample models for further illustration
+        ('model' 'factory' 'facade' 'calls' '{'
+    		(modelFacades += FacadeCall)*
+    	'}')?
+
+		// Adding languages in a perspective as well as the perspective actions
+		// of each language
+        'languages' '{'
+            (languages += Language)*
+        '}'
+        
+        ('mappings' '{'
+            (mappings += LanguageElementMapping)*
+        '}')?
+        
+    '}'
+;
+
+Language:
+    'existing' 'language' name = ID '{'
+    	"roleName" roleName = ID';'
+        "rootPackage" rootPackage = STRING';' 
+        (otherPackages += OtherPackage)*
+        
+        ('actions' '{'
+            (actions += PerspectiveAction)*
+        '}')?
+        
+        ('intraLanguage' 'mappings' '{'
+        	(mappings += IntraLanguageMapping)*
+        '}')?
+        
+    '}'
+;
+
+LanguageElementMapping:
+    (biDirectional ?= 'bi-directional')? (uniDirectional ?= 'uni-directional')? 'mapping' name = ID '{'
+    	
+    	('active' ':' active = BooleanType';')?
+    	('default' ':' isDefault = BooleanType';')?
+    	
+    	(fromOrigin ?= 'origin')? (fromDestination ?= 'destination')? 'fromMappingEnd' fromMappingEndName = ID '{'
+			'isRootElement' ':' fromIsRootElement = BooleanType';'
+    		'cardinality' ':' fromCardinality = Cardinality';'
+    		'roleName' ':' fromRoleName = ID';'
+    		'languageElement' ':' fromLanguageElement = STRING';'
+		'}'
+		
+		(toOrigin ?= 'origin')? (toDestination ?= 'destination')?'toMappingEnd' toMappingEndName = ID '{'
+			'isRootElement' ':' toIsRootElement = BooleanType';'
+    		'cardinality' ':' toCardinality = Cardinality';'
+    		'roleName' ':' toRoleName = ID';'
+    		'languageElement' ':' toLanguageElement = STRING';'
+		'}'
+		
+        ('nested' 'mappings' '{'
+            (nestedMappings += NestedMapping)*
+        '}')?
+    '}'
+;
+
+NestedMapping:
+    'nested' 'mapping' name = ID '{'
+    	'matchMaker' ':' matchMaker = BooleanType';'
+        'fromElement' ':' fromElementName = STRING 'from' fromRoleName = ID';'
+        'toElement' ':' toElementName = STRING 'from' toRoleName = ID';'
+    '}'
+;
+
+PerspectiveAction:
+	 RedefinedCreateAction | RedefinedDeleteAction | HiddenAction | CreateMapping
+;
+
+
+RedefinedCreateAction:
+    'redefined' 'create' 'action' name = ID '{'
+    	('rootElement' ':' rootElement = BooleanType';')?
+    	'ownerType' ':' ownerType = ID';'
+    	'methodTypeAndParameters' ':' typeParameters = STRING';'
+    	'methodCall' ':' methodCall = STRING';'
+    	'methodParameters' ':' methodParameter = STRING';'
+    	'languageElementName' ':' languageElementName = ID';'
+    	'languageElement' ':' languageElement = STRING';'
+    	
+    	// constraint condition for root model elements
+		(constraints += Constraint)*
+    	createFacadeAction = CreateFacadeAction
+    	('secondaryEffects' '{'
+    		('create' 'effects' '{'
+    			(createEffects += CreateEffect)*
+    		'}')?
+    		('delete' 'effects' '{'
+    			(deleteEffects += DeleteEffect)*
+    		'}')?
+    	'}')?
+    '}'
+;
+
+RedefinedDeleteAction:
+    'redefined' 'delete' 'action' name = ID '{'
+    	(rootElement ?= 'rootElement'';')?
+    	'methodTypeAndParameters' ':' typeParameters = STRING';'
+    	'methodCall' ':' methodCall = STRING';'
+    	'methodParameters' ':' methodParameter = STRING';'
+    	'languageElementName' ':' languageElementName = ID';'
+    	'languageElement' ':' languageElement = STRING';'
+    	
+    	// constraints for root model elements
+		(constraints += Constraint)*
+    	deleteFacadeAction = DeleteFacadeAction
+    	('secondaryEffects' '{'
+    		('create' 'effects' '{'
+    			(createEffects += CreateEffect)*
+    		'}')?
+    		('delete' 'effects' '{'
+    			(deleteEffects += DeleteEffect)*
+    		'}')?
+    	'}')?
+    '}'
+;
+
+HiddenAction:
+	'hidden' 'action' name = ID';'
+;
+
+CreateMapping:
+	'create' 'mapping' 'action' name = ID';'
+;
+
+CreateFacadeAction:
+    'facadeAction' 'create' name = ID '{'
+    	'facade' 'calls' '{'
+    		(facadeCalls += FacadeCall)*
+    	'}'
+    '}'
+;
+
+DeleteFacadeAction:
+	'facadeAction' 'delete' name = ID '{'
+		'facade' 'calls' '{'
+			(facadeCalls += FacadeCall)+
+		'}'
+		
+	'}'
+;
+
+OtherPackage:
+	"otherPackage" otherPackage = STRING';'
+;
+
+
+//MethodCall:
+//	'metaclassObject' ':' metaclassObject = STRING';'
+//	'methodCall' ':' methodCall = STRING';'
+//;
+
+FacadeCall:
+	'languageElement' ':' languageElement = STRING';'
+	// constraints
+	(constraints += Constraint)*
+	(mappings += ParameterMapping)*
+	'methodCall' ':' methodCall = STRING';'   
+;
+
+
+ParameterMapping:
+	'derivedParameter' mapping = STRING';'
+;
+
+CreateEffect:
+	'languageElement' ':' languageElement = STRING';'
+	(mappings += ParameterMapping)*
+	'methodCall' ':' methodCall = STRING';'
+;
+
+DeleteEffect:
+	'element' ':' element = STRING';'
+	'languageElement' ':' languageElement = STRING';'
+	(mappings += ParameterMapping)*
+	'methodCall' ':' methodCall = STRING';'
+;
+
+IntraLanguageMapping:
+	'mapping' name = ID '{'
+		'active' ':' active = BooleanType';'
+		'closure' ':' closure = BooleanType';'
+		'reuse' ':' reuse = BooleanType';'
+		'increaseDepth' ':' increaseDepth = BooleanType';'
+		'changeModel' ':' changeModel = BooleanType';'
+		'from' ':' from = STRING';'
+		'hops' '{'
+			(hops += Hop)*
+		'}'
+	'}'	
+;
+
+Hop:
+	'hop' ':' hop = STRING';'
+;
+
+Constraint:
+	'constraint' 'condition' '{'
+		'attributeName' ':' attributeName = ID';' 
+		'value' ':' value = STRING';'
+	'}' 
+;
+
+
+
+enum Cardinality:
+    COMPULSORY = '1' | OPTIONAL='0..1' | COMPULSORY_MULTIPLE='1..*' | OPTIONAL_MULTIPLE='0..*'
+;
+
+enum PerspectiveActionType :
+    REEXPOSE='re_expose' | REDEFINED='redefined' | CREATE_MAPPING='create_mapping'
+;
+
+enum LanguageActionType :
+	CREATE = 'create' | DELETE = 'delete' | UPDATE = 'update'
+;
+
+enum BooleanType:
+    FALSE = 'false' | TRUE = 'true' 
+;
+
+
+
+

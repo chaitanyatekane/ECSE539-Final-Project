@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: ca.mcgill.sel.languagedsl.ui
+Bundle-ManifestVersion: 2
+Bundle-Name: ca.mcgill.sel.languagedsl.ui
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: ca.mcgill.sel.languagedsl.ui; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: ca.mcgill.sel.languagedsl,
+ ca.mcgill.sel.languagedsl.ide,
+ org.eclipse.xtext.ui,
+ org.eclipse.xtext.ui.shared,
+ org.eclipse.xtext.ui.codetemplates.ui,
+ org.eclipse.ui.editors;bundle-version="3.5.0",
+ org.eclipse.ui.ide;bundle-version="3.5.0",
+ org.eclipse.ui,
+ org.eclipse.compare,
+ org.eclipse.xtext.builder
+Import-Package: org.apache.log4j
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Export-Package: ca.mcgill.sel.languagedsl.ui.internal,
+ ca.mcgill.sel.languagedsl.ca.mcgill.sel.ui.contentassist,
+ ca.mcgill.sel.languagedsl.ca.mcgill.sel.ui.quickfix
+Bundle-Activator: ca.mcgill.sel.languagedsl.ui.internal.LanguagedslActivator

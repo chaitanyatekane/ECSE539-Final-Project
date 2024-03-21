@@ -1,0 +1,66 @@
+grammar ca.mcgill.sel.languagedsl.ca.mcgill.sel.LanguageDSL with org.eclipse.xtext.common.Terminals
+
+generate languageDSL "http://www.mcgill.ca/sel/languagedsl/ca/mcgill/sel/LanguageDSL"
+
+LanguageModel:
+    (language += Language)*
+;
+
+
+Language:
+    'language' name = ID '{'
+        'rootPackage' rootPackage = STRING';'
+//        'rootControllerPackage' rootControllerPackage = STRING';'
+        'packageClassName' packageClassName = ID';'
+        'nsURI' nsURI = STRING';'
+        'resourceFactory' resourceFactory = STRING';'  
+        'adapterFactory' adapterFactory = STRING';'
+        'weaverClassName' weaverClassName = STRING';'
+        'fileExtension' fileExtension = ID';' 
+        'modelUtilClassName' modelUtilClassName = STRING';'
+        
+        'language' 'elements' '{'
+            (elements += LanguageElement)*
+        '}'
+        
+        ('actions' '{'
+            (actions += Action)*
+        '}')?
+    '}'
+;
+
+LanguageElement:
+    'languageElement' languageElement = ID '{'
+    	(nestedElements += NestedElement)*
+    '}'
+;
+
+NestedElement:
+    'nestedElement' languageElement = ID 'elementName' attributeName = ID';'
+;
+
+
+Action:
+   'create' methodNameAndParameters = STRING '{'
+        'metaclass' ':' metaclass = ID';'
+        'classQualifiedName' ':' classQualifiedName = STRING';'
+        
+        ('secondary' 'effects' '{'
+        	(secondaryEffects += ActionEffect)*
+        	
+        '}')?
+   '}'
+;
+
+ActionEffect:
+	CreateEffect | DeleteEffect | UpdateEffect
+;
+CreateEffect:
+    'create' 'element' ':' 'type' type = ID';'
+;
+DeleteEffect:
+    'delete' 'element' ':' 'deleteParameterEffect' deleteParameterEffect = ID';'
+;
+UpdateEffect:
+    'update' 'element' ':' 'updateParameterEffect' updateParameterEffect = ID 'affectedFeature' affectedFeature = ID';'
+;

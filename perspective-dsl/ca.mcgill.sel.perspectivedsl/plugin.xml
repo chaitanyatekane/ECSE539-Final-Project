@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+	<extension point="org.eclipse.emf.ecore.generated_package">
+		<package
+			uri = "http://www.mcgill.ca/sel/perspectivedsl/ca/mcgill/sel/PerspectiveDSL"
+			class = "ca.mcgill.sel.perspectivedsl.ca.mcgill.sel.perspectiveDSL.PerspectiveDSLPackage"
+			genModel = "model/generated/PerspectiveDSL.genmodel" />
+	</extension>
+</plugin>

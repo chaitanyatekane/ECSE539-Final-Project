@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature id="ca.mcgill.sel.perspectivedsl.feature"
+	label="PerspectiveDSL Feature "
+	version="1.0.0.qualifier">
+	<plugin
+			id="ca.mcgill.sel.perspectivedsl"
+			download-size="0"
+			install-size="0"
+			version="0.0.0"
+			unpack="false"/>
+	<plugin
+			id="ca.mcgill.sel.perspectivedsl.ide"
+			download-size="0"
+			install-size="0"
+			version="0.0.0"
+			unpack="false"/>
+	<plugin
+			id="ca.mcgill.sel.perspectivedsl.ui"
+			download-size="0"
+			install-size="0"
+			version="0.0.0"
+			unpack="false"/>
+</feature>

@@ -56,6 +56,10 @@ Language:
         "rootPackage" rootPackage = STRING';' 
         (otherPackages += OtherPackage)*
         
+        ('hidden' 'concepts' '{'
+            (hiddenConcepts += HiddenConcept)*
+        '}')?
+        
         ('actions' '{'
             (actions += PerspectiveAction)*
         '}')?
@@ -99,6 +103,10 @@ NestedMapping:
         'fromElement' ':' fromElementName = STRING 'from' fromRoleName = ID';'
         'toElement' ':' toElementName = STRING 'from' toRoleName = ID';'
     '}'
+;
+
+HiddenConcept:
+	name = ID';'
 ;
 
 PerspectiveAction:

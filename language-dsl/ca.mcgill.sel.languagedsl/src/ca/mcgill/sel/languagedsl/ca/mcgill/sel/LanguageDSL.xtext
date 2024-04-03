@@ -20,7 +20,7 @@ Language:
         'modelUtilClassName' modelUtilClassName = STRING';'
         
         'concepts' '{'
-        	(concepts += Concept)
+        	(concepts += Concept)*
         '}'
         
         'language' 'elements' '{'
@@ -34,7 +34,11 @@ Language:
 ;
 
 Concept:
-   'conceptName' conceptName = ID
+   'concept' conceptName = ID '{'
+	   ('parent' 'concepts' '{'
+	   		(parentConcepts += Concept)*
+	   '}' )?
+   '}'
 ;
 
 LanguageElement:
@@ -52,11 +56,6 @@ Action:
    'create' methodNameAndParameters = STRING '{'
         'metaclass' ':' metaclass = ID';'
         'classQualifiedName' ':' classQualifiedName = STRING';'
-        
-        ('secondary' 'effects' '{'
-        	(secondaryEffects += ActionEffect)*
-        	
-        '}')?
         
         ('associated' 'concepts' '{'
         	(associatedConcepts += Concept)*

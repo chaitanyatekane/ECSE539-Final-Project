@@ -36,6 +36,9 @@ class PerspectiveSpecification {
 	 	public class «perspective.name.replaceAll("\\s", "")»Specification {
 	 	    
 	 	    public static COREPerspective initializePerspective(COREPerspective perspective) {
+	 	    	
+	 	    	// add hidden concepts
+	 	    	addPerspectiveHiddenConcepts(perspective);
 	 	
 	 	        // create perspective actions
 	 	        createPerspectiveAction(perspective);
@@ -124,6 +127,8 @@ class PerspectiveSpecification {
 	 	        COREPerspectiveAction pAction = null;
 	 	        
 	 	        «FOR language : perspective.languages»
+	 	        
+	 	        	
 	 	        	«FOR action : language.actions»
 	 	        		«IF action instanceof RedefinedCreateAction || action instanceof RedefinedDeleteAction»
 	 	        			pAction = CoreFactory.eINSTANCE.createCORERedefineAction();
@@ -142,8 +147,40 @@ class PerspectiveSpecification {
 	 	        			perspective.getActions().add(pAction);	 	        		
 	 	        		«ENDIF»
 	 	        	«ENDFOR»
+	 	        	
+	 	        	
+	 	        	
+	 	        	
 	 	        «ENDFOR»
 	 	       }
+	 	       
+	 	    private static void addPerspectiveHiddenConcepts(COREPerspective perspective){
+	 	    	«FOR language : perspective.languages»
+	 	    		// create empty set	        	
+	 	        	// while list not empty
+	 	        	// add children to list, make curr hidden, remove curr from list
+	 	        	// create empty set	 
+	 	        	«FOR hiddenConcept : language.hiddenConcepts»
+	 	        		// add concepts to set
+	 	        	«ENDFOR» 	  
+	 	        	
+	 	        	«FOR hiddenConcept : language.hiddenConcepts»
+	 	        		 	      // add concepts to set
+	 	        	«ENDFOR» 
+	 	        	      	
+	 	    		 	        	
+	 	    	«ENDFOR»
+	 	    	
+	 	    	// TODO: ADD ASSOCIATION BETWEEN PERSPECTIVE AND CONCEPT
+	 	    		 	        		
+	 	    	// TODO: CREATE HIDDEN ACTION FOR ALL ASSOCIATED ACTIONS
+	 	    	
+	 	    	// TODO: RECURSIVELY CALL FUNCTION ON CHILDREN
+	 	    	«FOR child : concept.parentConcepts»
+ 	        		handleConcept(language, «child»);
+	 	    	«ENDFOR»
+	 	    		
+	 	    }
 	 	
 	 	    private static void createPerspectiveMappings(COREPerspective perspective) {
 	 	

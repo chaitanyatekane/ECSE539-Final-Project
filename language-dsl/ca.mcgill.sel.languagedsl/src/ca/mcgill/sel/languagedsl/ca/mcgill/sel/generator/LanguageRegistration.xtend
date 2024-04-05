@@ -114,6 +114,8 @@ class LanguageRegistration {
             language.setModelUtilClassName("«language.modelUtilClassName»");
 
             createLanguageElements(language);
+            
+            createLanguageConcepts(language);
 
             createLanguageActions(language);
 
@@ -144,6 +146,30 @@ class LanguageRegistration {
                 «ENDFOR»
 
             }
+            
+            private static void createLanguageConcepts(COREExternalLanguage language) {
+            
+                            «FOR concept : language.concepts»
+                                // TODO: create classdiagram core language concept
+                                
+                                CORELanguageConcept «concept.conceptName.toFirstLower»Concept = createCORELanguageConcept(language, «language.packageClassName».eINSTANCE.get«concept.conceptName»());
+                                
+            
+                                «FOR parentConcept : concept.parentConcepts»
+                                    // link child to parents
+                                    
+                                    // TODO: ADD ASSOCIATION BETWEEN CONCEPT AND PARENTCONCEPT
+                                    
+                                    «concept.conceptName.toFirstLower»Concept.getParentConcepts().add(«parentConcept.conceptName.toFirstLower»);
+                                    
+                        
+                                «ENDFOR»
+            
+                            «ENDFOR»
+            
+                        }
+            
+            
 
             /**
             * This method creates an instance of {@link CORELanguageElement} for a given language {@link COREExternalLanguage}
@@ -182,6 +208,11 @@ class LanguageRegistration {
                     CORELanguageAction lAction«count» = CoreFactory.eINSTANCE.createCORELanguageAction();
                     lAction«count».setName("«language.name».«action.metaclass».«action.methodNameAndParameters»");
                     language.getActions().add(lAction«count»);
+                    
+                    // TODO: ADD ASSOCIATION BETWEEN ACTION AND ALL ASSOCIATED CONCEPTS
+                    «FOR concept : action.associatedConcepts»
+                    	lAction«count».getConcepts().add(«concept»);
+                    «ENDFOR»
 
                 «ENDFOR»
             }

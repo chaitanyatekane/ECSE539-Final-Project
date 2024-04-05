@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="core" nsURI="http://cs.mcgill.ca/sel/core/2.0" nsPrefix="core">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
+  </eAnnotations>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="COREArtefact" abstract="true" eSuperTypes="#//CORENamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelReuses" upperBound="-1"
+        eType="#//COREModelReuse" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coreConcern" lowerBound="1"
+        eType="#//COREConcern" eOpposite="#//COREConcern/artefacts"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelExtensions" upperBound="-1"
+        eType="#//COREModelExtension" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uiElements" upperBound="-1"
+        eType="#//COREUIElement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ciElements" upperBound="-1"
+        eType="#//CORECIElement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="temporaryConcern" eType="#//COREConcern"
+        transient="true" eOpposite="#//COREConcern/temporaryArtefacts"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scene" eType="#//COREScene"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="COREImpactModel" eSuperTypes="#//COREArtefact">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="impactModelElements" upperBound="-1"
+        eType="#//COREImpactNode" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="layouts" upperBound="-1"
+        eType="#//LayoutContainerMap" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contributions" upperBound="-1"
+        eType="#//COREContribution" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="COREConcern" eSuperTypes="#//CORENamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="artefacts" lowerBound="1"
+        upperBound="-1" eType="#//COREArtefact" containment="true" eOpposite="#//COREArtefact/coreConcern"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="featureModel" lowerBound="1"
+        eType="#//COREFeatureModel" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="derivation" value="if self.artefacts->exists(a | a.oclIsTypeOf(COREFeatureModel)) then&#xA;                self.artefacts->any(a | a.oclIsTypeOf(COREFeatureModel)).oclAsType(COREFeatureModel)&#xA;            else&#xA;                null&#xA;            endif"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="impactModel" eType="#//COREImpactModel"
+        derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="derivation" value="&#xA;            if self.artefacts->exists(a | a.oclIsTypeOf(COREImpactModel)) then&#xA;                self.artefacts->any(a | a.oclIsTypeOf(COREImpactModel)).oclAsType(COREImpactModel)&#xA;            else&#xA;                null&#xA;            endif"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scenes" upperBound="-1"
+        eType="#//COREScene" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reuses" upperBound="-1"
+        eType="#//COREReuse" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="temporaryArtefacts" upperBound="-1"
+        eType="#//COREArtefact" transient="true" eOpposite="#//COREArtefact/temporaryConcern"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="COREFeature" eSuperTypes="#//CORENamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="realizedBy" upperBound="-1"
+        eType="#//COREScene" eOpposite="#//COREScene/realizes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//COREFeature" eOpposite="#//COREFeature/parent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//COREFeature"
+        eOpposite="#//COREFeature/children"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="parentRelationship" lowerBound="1"
+        eType="#//COREFeatureRelationshipType" defaultValueLiteral="None"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requires" upperBound="-1"
+        eType="#//COREFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="excludes" upperBound="-1"
+        eType="#//COREFeature"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="COREModelComposition" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//COREArtefact"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compositions" upperBound="-1"
+        containment="true">
+      <eGenericType eClassifier="#//COREModelElementComposition">
+        <eTypeArguments/>
+      </eGenericType>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CORELink" abstract="true">
+    <eTypeParameters name="T"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="to" lowerBound="1">
+      <eGenericType eTypeParameter="#//CORELink/T"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="from" lowerBound="1">
+      <eGenericType eTypeParameter="#//CORELink/T"/>
+    </eStructuralFeatures>
+    <eGenericSuperTypes eClassifier="#//COREModelElementComposition">
+      <eTypeArguments eTypeParameter="#//CORELink/T"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CORENamedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="COREReuse" eSuperTypes="#//CORENamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reusedConcern" lowerBound="1"
+        eType="#//COREConcern"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extends" eType="#//COREReuse"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelReuses" upperBound="-1"
+        eType="#//COREModelReuse" eOpposite="#//COREModelReuse/reuse"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="COREImpactNode" eSuperTypes="#//CORENamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="scalingFactor" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="offset" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" upperBound="-1"
+        eType="#//COREContribution" eOpposite="#//COREContribution/source"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" upperBound="-1"
+        eType="#//COREContribution" eOpposite="#//COREContribution/impacts"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="COREConfiguration" eSuperTypes="#//COREModelComposition #//CORENamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="selected" upperBound="-1"
+        eType="#//COREFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reexposed" upperBound="-1"
+        eType="#//COREFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extendingConfigurations"
+        upperBound="-1" eType="#//COREConfiguration" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extendedReuse" eType="#//COREReuse"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="COREFeatureModel" eSuperTypes="#//COREArtefact">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="features" upperBound="-1"
+        eType="#//COREFeature" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="root" lowerBound="1" eType="#//COREFeature"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="COREFeatureRelationshipType">
+    <eLiterals name="None"/>
+    <eLiterals name="Optional" value="4"/>
+    <eLiterals name="Mandatory" value="3"/>
+    <eLiterals name="XOR" value="1"/>
+    <eLiterals name="OR" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="COREModelReuse" eSuperTypes="#//COREModelComposition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reuse" lowerBound="1" eType="#//COREReuse"
+        eOpposite="#//COREReuse/modelReuses"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configuration" lowerBound="1"
+        eType="#//COREConfiguration" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="COREContribution">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="relativeWeight" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//COREImpactNode" eOpposite="#//COREImpactNode/outgoing"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="impacts" lowerBound="1"
+        eType="#//COREImpactNode" eOpposite="#//COREImpactNode/incoming"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LayoutMap" instanceClassName="java.util.Map$Entry">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="key" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" eType="#//LayoutElement"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LayoutElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"
+        defaultValueLiteral="0.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"
+        defaultValueLiteral="0.0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LayoutContainerMap" instanceClassName="java.util.Map$Entry">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="key" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" upperBound="-1"
+        eType="#//LayoutMap" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="COREFeatureImpactNode" eSuperTypes="#//COREImpactNode">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="relativeFeatureWeight"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="represents" lowerBound="1"
+        eType="#//COREFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="weightedLinks" upperBound="-1"
+        eType="#//COREWeightedLink"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="COREModelElementComposition" abstract="true">
+    <eTypeParameters name="T"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="COREWeightedLink">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="weight" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eGenericSuperTypes eClassifier="#//CORELink">
+      <eTypeArguments eClassifier="#//COREImpactNode"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="COREVisibilityType">
+    <eLiterals name="public"/>
+    <eLiterals name="concern" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="COREPartialityType">
+    <eLiterals name="none"/>
+    <eLiterals name="public" value="1"/>
+    <eLiterals name="concern" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="COREModelExtension" eSuperTypes="#//COREModelComposition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="COREMapping">
+    <eTypeParameters name="T"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mappings" upperBound="-1"
+        containment="true">
+      <eGenericType eClassifier="#//COREMapping">
+        <eTypeArguments/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedMappings" upperBound="-1">
+      <eGenericType eClassifier="#//COREMapping">
+        <eTypeArguments/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eGenericSuperTypes eClassifier="#//CORELink">
+      <eTypeArguments eTypeParameter="#//COREMapping/T"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="COREScene" eSuperTypes="#//CORENamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="realizes" upperBound="-1"
+        eType="#//COREFeature" eOpposite="#//COREFeature/realizedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="perspectiveName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elementMappings" upperBound="-1"
+        eType="#//COREModelElementMapping" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="artefacts" upperBound="-1"
+        eType="#//ArtefactMap" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="COREPerspective" eSuperTypes="#//CORELanguage">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mappings" upperBound="-1"
+        eType="#//CORELanguageElementMapping" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="languages" upperBound="-1"
+        eType="#//LanguageMap" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="default" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="navigationMappings" upperBound="-1"
+        eType="#//NavigationMapping" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hiddenConcepts" upperBound="-1"
+        eType="#//CORELanguageConcept"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="COREExternalLanguage" eSuperTypes="#//CORELanguage">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nsURI" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resourceFactory" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="adapterFactory" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="weaverClassName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileExtension" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="languageElements" upperBound="-1"
+        eType="#//CORELanguageElement" containment="true" eOpposite="#//CORELanguageElement/language"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelUtilClassName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="generatedPackageName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="COREPerspectiveAction" abstract="true"
+      eSuperTypes="#//COREAction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="forRole" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="actionIdentifier" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="COREExternalArtefact" eSuperTypes="#//COREArtefact">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rootModelElement" lowerBound="1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="languageName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="COREUIElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelElement" lowerBound="1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CORECIElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="partiality" eType="#//COREPartialityType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelElement" lowerBound="1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mappingCardinality" eType="#//COREMappingCardinality"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referenceCardinality" upperBound="-1"
+        eType="#//COREMappingCardinality"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="COREMappingCardinality">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerBound" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="upperBound" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CORELanguageElementMapping">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
+        eType="#//CORECreateMapping" eOpposite="#//CORECreateMapping/type"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mappingEnds" lowerBound="2"
+        upperBound="-1" eType="#//MappingEnd" containment="true" eOpposite="#//MappingEnd/type"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="identifier" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nestedMappings" upperBound="-1"
+        eType="#//CORELanguageElementMapping" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="matchMaker" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="COREReexposeAction" eSuperTypes="#//COREPerspectiveAction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reexposedAction" lowerBound="1"
+        eType="#//COREAction"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CORERedefineAction" eSuperTypes="#//COREPerspectiveAction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="redefinedAction" lowerBound="1"
+        eType="#//COREAction"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reusedActions" lowerBound="1"
+        upperBound="-1" eType="#//COREAction"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CORELanguageAction" eSuperTypes="#//COREAction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="classQualifiedName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="methodName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//Parameter" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="secondaryEffects" upperBound="-1"
+        eType="#//ActionEffect" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="actionType" lowerBound="1"
+        eType="#//LanguageActionType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="concepts" upperBound="-1"
+        eType="#//CORELanguageConcept" eOpposite="#//CORELanguageConcept/languageActions"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CORECreateMapping" eSuperTypes="#//COREPerspectiveAction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//CORELanguageElementMapping"
+        eOpposite="#//CORELanguageElementMapping/actions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extendedAction" eType="#//CORECreateMapping"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelElements" lowerBound="2"
+        upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CORERelationship">
+    <eLiterals name="equality"/>
+    <eLiterals name="refines" value="1"/>
+    <eLiterals name="uses" value="2"/>
+    <eLiterals name="extends" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Cardinality">
+    <eLiterals name="compulsory"/>
+    <eLiterals name="optional" value="1"/>
+    <eLiterals name="compulsoryMultiple" value="2"/>
+    <eLiterals name="optionalMultiple" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CORELanguage" abstract="true" eSuperTypes="#//COREArtefact">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
+        eType="#//COREAction" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="concepts" upperBound="-1"
+        eType="#//CORELanguageConcept" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="COREAction" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CreateModelElementMapping" eSuperTypes="#//COREPerspectiveAction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reusedActions" upperBound="-1"
+        eType="#//COREAction"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="COREModelElementMapping">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelElements" lowerBound="1"
+        upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="LEMid" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MappingEnd">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cardinality" lowerBound="1"
+        eType="#//Cardinality"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="roleName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//CORELanguageElementMapping"
+        eOpposite="#//CORELanguageElementMapping/mappingEnds"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="languageElement" lowerBound="1"
+        eType="#//CORELanguageElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LanguageMap" instanceClassName="java.util.Map$Entry">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//CORELanguage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ArtefactMap" instanceClassName="java.util.Map$Entry">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" upperBound="-1"
+        eType="#//COREArtefact"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="LanguageActionType">
+    <eLiterals name="create"/>
+    <eLiterals name="update" value="1"/>
+    <eLiterals name="delete" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Parameter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CORELanguageElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="languageActions" upperBound="-1"
+        eType="#//CORELanguageAction"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="languageElement" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="language" eType="#//COREExternalLanguage"
+        eOpposite="#//COREExternalLanguage/languageElements"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nestedElements" upperBound="-1"
+        eType="#//CORELanguageElement" containment="true" eOpposite="#//CORELanguageElement/owner"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owner" eType="#//CORELanguageElement"
+        eOpposite="#//CORELanguageElement/nestedElements"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExistingElementEffect" abstract="true"
+      eSuperTypes="#//ActionEffect">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameter" eType="#//Parameter"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="parameterEffect" lowerBound="1"
+        eType="#//ParameterEffect"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ParameterEffect">
+    <eLiterals name="element" value="2"/>
+    <eLiterals name="id" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeleteEffect" eSuperTypes="#//ExistingElementEffect"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UpdateEffect" eSuperTypes="#//ExistingElementEffect">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="affectedFeature" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NavigationMapping">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="active" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterLanguageMapping" eSuperTypes="#//NavigationMapping">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="default" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coreLanguageElementMapping"
+        lowerBound="1" eType="#//CORELanguageElementMapping"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interLanguageMappingEnds"
+        upperBound="-1" eType="#//InterLanguageMappingEnd"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntraLanguageMapping" eSuperTypes="#//NavigationMapping">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="closure" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reuse" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="increaseDepth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="changeModel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="from" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hops" lowerBound="1" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterLanguageMappingEnd">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+        derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="origin" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="destination" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mappingEnd" lowerBound="1"
+        eType="#//MappingEnd"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CreateEffect" eSuperTypes="#//ActionEffect">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="corelanguageElement" lowerBound="1"
+        eType="#//CORELanguageElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ActionEffect" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="COREReuseArtefact" eSuperTypes="#//COREArtefact"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CORELanguageConcept">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="childConcepts" upperBound="-1"
+        eType="#//CORELanguageConcept" eOpposite="#//CORELanguageConcept/parentConcepts"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentConcepts" upperBound="-1"
+        eType="#//CORELanguageConcept" eOpposite="#//CORELanguageConcept/childConcepts"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="languageActions" upperBound="-1"
+        eType="#//CORELanguageAction" eOpposite="#//CORELanguageAction/concepts"/>
+  </eClassifiers>
+</ecore:EPackage>

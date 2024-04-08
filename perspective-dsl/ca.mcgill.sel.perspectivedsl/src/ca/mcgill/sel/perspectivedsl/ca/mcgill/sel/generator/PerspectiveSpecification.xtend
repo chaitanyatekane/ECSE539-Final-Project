@@ -175,10 +175,7 @@ class PerspectiveSpecification {
 	 	    		 	        		
 	 	    	// TODO: CREATE HIDDEN ACTION FOR ALL ASSOCIATED ACTIONS
 	 	    	
-	 	    	// TODO: RECURSIVELY CALL FUNCTION ON CHILDREN
-	 	    	«FOR child : concept.parentConcepts»
- 	        		handleConcept(language, «child»);
-	 	    	«ENDFOR»
+	 	    	
 	 	    		
 	 	    }
 	 	

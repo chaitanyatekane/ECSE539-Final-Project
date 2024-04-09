@@ -1,6 +1,5 @@
 language ClassDiagram {
     rootPackage "classdiagram.package";
-    rootControllerPackage "classdiagram.controller";
     packageClassName ClassDiagramPackage;
     nsURI "http://classdiagram/1.0";
     resourceFactory "ClassDiagramResourceFactoryImpl";
@@ -9,7 +8,193 @@ language ClassDiagram {
     fileExtension  cdm;
     modelUtilClassName "ca.mcgill.sel.classdiagram.util.CdmModelUtil";
       
-    language elements {
+    
+    
+	concepts {
+		concept Class {}
+		concept Note {}
+		concept Enumeration {}
+		concept Static {}
+		concept Visibility {}
+		
+		concept Interface {
+			parent concepts {
+				concept Class {}
+			}
+		}
+		
+		
+		concept AbstractClass {
+			parent concepts {
+				concept Class {}
+			}
+		}
+		
+		concept Relationship{
+			parent concepts {
+				concept Class {}
+			}
+		}
+		
+		concept Attribute{
+			parent concepts {
+				concept Class {}
+			}
+		}
+		
+		concept Inheritance{
+			parent concepts {
+				concept Class {}
+			}
+		}
+		
+		concept Method{
+			parent concepts {
+				concept Class {}
+			}
+		}
+		
+		concept ClassVisibility {
+			parent concepts {
+				concept Class {} concept Visibility {}
+			}
+		}
+		
+		concept StaticClass {
+			parent concepts {
+				concept Class {} concept Static {}
+			}
+		}
+		
+		concept DataType {
+			parent concepts {
+				concept Class {}
+			}
+		}
+		
+		concept Implements {
+			parent concepts {
+				concept Interface {}
+			}
+		}
+		
+		concept RoleName {
+			parent concepts {
+				concept Relationship {}
+			}
+		}
+		
+		concept Multiplicity {
+			parent concepts {
+				concept Relationship {}
+			}
+		}
+		
+		concept Navigability {
+			parent concepts {
+				concept Relationship {}
+			}
+		}
+		
+		concept Composition {
+			parent concepts {
+				concept Relationship {}
+			}
+		}
+		
+		concept Association {
+			parent concepts {
+				concept Relationship {}
+			}
+		}
+		
+		concept Aggregation {
+			parent concepts {
+				concept Relationship {}
+			}
+		}
+		
+		concept StaticRoleName {
+			parent concepts {
+				concept RoleName {} concept Static {}
+			}
+		}
+		
+		concept RoleNameVisbility {
+			parent concepts {
+				concept RoleName {} concept Visibility {}
+			}
+		}
+		
+		concept AssociationClass {
+			parent concepts {
+				concept Association {}
+			}
+		}
+		
+		concept BinaryAssociation {
+			parent concepts {
+				concept Association {}
+			}
+		}
+		
+		concept NaryAssociation {
+			parent concepts {
+				concept Association {}
+			}
+		}
+		
+		concept QualfiedAssociation {
+			parent concepts {
+				concept Association {}
+			}
+		}
+		
+		concept OrderedAssociation {
+			parent concepts {
+				concept Association {}
+			}
+		}
+		
+		concept StaticAttribute {
+			parent concepts {
+				concept Attribute {} concept Static {}
+			}
+		}
+		
+		concept AttributeMultiplicity {
+			parent concepts {
+				concept Attribute {} concept Multiplicity {}
+			}
+		}
+		
+		concept AttributeVisibility {
+			parent concepts {
+				concept Attribute {} concept Visibility {}
+			}
+		}
+		
+		concept AttributeUniqueness {
+			parent concepts {
+				concept Attribute {}
+			}
+		}
+		
+		concept MethodVisibility {
+			parent concepts {
+				concept Method {} concept Visibility {}
+			}
+		}
+		
+		concept StaticMethod {
+			parent concepts {
+				concept Method {} concept Static {}
+			}
+		}
+			
+	}
+
+language elements {
     	languageElement ClassDiagram {
         	 
         }
@@ -20,170 +205,6 @@ language ClassDiagram {
         	
         } 
     }
-    
-    
-	concepts {
-		conceptName Class
-		conceptName Note
-		conceptName Enumeration
-		conceptName Static
-		conceptName Visibility
-		
-		conceptName Interfaces
-		parentConcepts {
-			Class
-		}
-		
-		conceptName = "Abstract Classes"
-		parentConcepts {
-			"Classes"
-		}
-		
-		conceptName = "Relationships"
-		parentConcepts {
-			"Classes"
-		}
-		
-		conceptName = "Attributes"
-		parentConcepts {
-			"Classes"
-		}
-		
-		conceptName = "Inheritance"
-		parentConcepts {
-			"Classes"
-		}
-		
-		conceptName = "Methods"
-		parentConcepts {
-			"Classes"
-		}
-		
-		conceptName = "Class Visibility"
-		parentConcepts {
-			"Classes"
-			"Visibility"
-		}
-		
-		conceptName = "Static Classes"
-		parentConcepts {
-			"Classes"
-			"Static"
-		}
-		
-		conceptName = "Data Type"
-		parentConcepts {
-			"Classes"
-		}
-		
-		conceptName = "Implements"
-		parentConcepts {
-			"Interfaces"
-		}
-		
-		conceptName = "Role Names"
-		parentConcepts {
-			"Relationships"
-		}
-		
-		conceptName = "Multiplicities"
-		parentConcepts {
-			"Relationships"
-		}
-		
-		conceptName = "Navigability"
-		parentConcepts {
-			"Relationships"
-		}
-		
-		conceptName = "Compositions"
-		parentConcepts {
-			"Relationships"
-		}
-		
-		conceptName = "Associations"
-		parentConcepts {
-			"Relationships"
-		}
-		
-		conceptName = "Aggregations"
-		parentConcepts {
-			"Relationships"
-		}
-		
-		conceptName = "Static Role Names"
-		parentConcepts {
-			"Role Names"
-			"Static"
-		}
-		
-		conceptName = "Role Name Visibility"
-		parentConcepts {
-			"Role Names"
-			"Visibility"
-		}
-		
-		conceptName = "Association Classes"
-		parentConcepts {
-			"Associations"
-		}
-		
-		conceptName = "Binary Associations"
-		parentConcepts {
-			"Associations"
-		}
-		
-		conceptName = "N-ary Associations"
-		parentConcepts {
-			"Associations"
-		}
-		
-		conceptName = "Qualified Associations"
-		parentConcepts {
-			"Associations"
-		}
-		
-		conceptName = "Ordering of Associations"
-		parentConcepts {
-			"Associations"
-		}
-		
-		conceptName = "Static Attributes"
-		parentConcepts {
-			"Attributes"
-			"Static"
-		}
-		
-		conceptName = "Attribute Multiplicity"
-		parentConcepts {
-			"Attributes"
-			"Multiplicities"
-		}
-		
-		conceptName = "Attribute Visibility"
-		parentConcepts {
-			"Attributes"
-			"Visibility"
-		}
-		
-		conceptName = "Attribute Uniqueness"
-		parentConcepts {
-			"Attributes"
-		}
-		
-		conceptName = "Method Visibility"
-		parentConcepts {
-			"Methods"
-			"Visibility"
-		}
-		
-		conceptName = "Static Methods"
-		parentConcepts {
-			"Methods"
-			"Static"
-		}
-			
-	}
        
     actions {
     	create "createClass(ClassDiagram owner, String name, boolean dataType)" {
@@ -197,17 +218,19 @@ language ClassDiagram {
             }
             
             associated concepts {
-            	Class
+            	concept Class {}
             }
         }
         
         create "createAttribute(Class owner, float x, float y)" {
             metaclass: Attribute;
             classQualifiedName : "ControllerFactory.INSTANCE.getClassController()";
-        }
-        associated concepts {
-            	Attribute
+            
+            associated concepts {
+            	concept Attribute {}
             }
+        }
+        
     }
          
 }  

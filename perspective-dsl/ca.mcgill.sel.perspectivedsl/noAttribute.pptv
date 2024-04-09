@@ -1,0 +1,28 @@
+
+perspective {
+
+    name : "No Attributes";
+    
+    currentPerspective : "";
+    perspectiveScene : "";
+    currentRoleName : "";
+      
+    languages {
+    	existing language ClassDiagram {
+    		roleName Domain_Model;
+            rootPackage "ca.mcgill.sel.classdiagram";
+            hidden concepts {
+            	Attribute;
+            }
+            
+            
+        }
+        
+        
+        
+    }
+           
+    
+      
+}
+  

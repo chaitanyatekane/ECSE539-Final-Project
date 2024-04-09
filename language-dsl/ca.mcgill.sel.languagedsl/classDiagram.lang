@@ -1,0 +1,213 @@
+language ClassDiagram {
+    rootPackage "classdiagram.package";
+    rootControllerPackage "classdiagram.controller";
+    packageClassName ClassDiagramPackage;
+    nsURI "http://classdiagram/1.0";
+    resourceFactory "ClassDiagramResourceFactoryImpl";
+    adapterFactory "ClassDiagramItemProviderAdapterFactory";
+    weaverClassName "ca.mcgill.sel.ram.weaver.RAMWeaver";
+    fileExtension  cdm;
+    modelUtilClassName "ca.mcgill.sel.classdiagram.util.CdmModelUtil";
+      
+    language elements {
+    	languageElement ClassDiagram {
+        	 
+        }
+        languageElement Class {
+        	nestedElement Class_Name elementName name;
+        }
+        languageElement Attribute {
+        	
+        } 
+    }
+    
+    
+	concepts {
+		conceptName Class
+		conceptName Note
+		conceptName Enumeration
+		conceptName Static
+		conceptName Visibility
+		
+		conceptName Interfaces
+		parentConcepts {
+			Class
+		}
+		
+		conceptName = "Abstract Classes"
+		parentConcepts {
+			"Classes"
+		}
+		
+		conceptName = "Relationships"
+		parentConcepts {
+			"Classes"
+		}
+		
+		conceptName = "Attributes"
+		parentConcepts {
+			"Classes"
+		}
+		
+		conceptName = "Inheritance"
+		parentConcepts {
+			"Classes"
+		}
+		
+		conceptName = "Methods"
+		parentConcepts {
+			"Classes"
+		}
+		
+		conceptName = "Class Visibility"
+		parentConcepts {
+			"Classes"
+			"Visibility"
+		}
+		
+		conceptName = "Static Classes"
+		parentConcepts {
+			"Classes"
+			"Static"
+		}
+		
+		conceptName = "Data Type"
+		parentConcepts {
+			"Classes"
+		}
+		
+		conceptName = "Implements"
+		parentConcepts {
+			"Interfaces"
+		}
+		
+		conceptName = "Role Names"
+		parentConcepts {
+			"Relationships"
+		}
+		
+		conceptName = "Multiplicities"
+		parentConcepts {
+			"Relationships"
+		}
+		
+		conceptName = "Navigability"
+		parentConcepts {
+			"Relationships"
+		}
+		
+		conceptName = "Compositions"
+		parentConcepts {
+			"Relationships"
+		}
+		
+		conceptName = "Associations"
+		parentConcepts {
+			"Relationships"
+		}
+		
+		conceptName = "Aggregations"
+		parentConcepts {
+			"Relationships"
+		}
+		
+		conceptName = "Static Role Names"
+		parentConcepts {
+			"Role Names"
+			"Static"
+		}
+		
+		conceptName = "Role Name Visibility"
+		parentConcepts {
+			"Role Names"
+			"Visibility"
+		}
+		
+		conceptName = "Association Classes"
+		parentConcepts {
+			"Associations"
+		}
+		
+		conceptName = "Binary Associations"
+		parentConcepts {
+			"Associations"
+		}
+		
+		conceptName = "N-ary Associations"
+		parentConcepts {
+			"Associations"
+		}
+		
+		conceptName = "Qualified Associations"
+		parentConcepts {
+			"Associations"
+		}
+		
+		conceptName = "Ordering of Associations"
+		parentConcepts {
+			"Associations"
+		}
+		
+		conceptName = "Static Attributes"
+		parentConcepts {
+			"Attributes"
+			"Static"
+		}
+		
+		conceptName = "Attribute Multiplicity"
+		parentConcepts {
+			"Attributes"
+			"Multiplicities"
+		}
+		
+		conceptName = "Attribute Visibility"
+		parentConcepts {
+			"Attributes"
+			"Visibility"
+		}
+		
+		conceptName = "Attribute Uniqueness"
+		parentConcepts {
+			"Attributes"
+		}
+		
+		conceptName = "Method Visibility"
+		parentConcepts {
+			"Methods"
+			"Visibility"
+		}
+		
+		conceptName = "Static Methods"
+		parentConcepts {
+			"Methods"
+			"Static"
+		}
+			
+	}
+       
+    actions {
+    	create "createClass(ClassDiagram owner, String name, boolean dataType)" {
+            metaclass: Class;
+            classQualifiedName : "ControllerFactory.INSTANCE.getClassController()";
+            
+            secondary effects {
+            	delete element : deleteParameterEffect gghgjk;
+            	create element : type vbfgnhj;
+            	update element : updateParameterEffect gfhghjk affectedFeature grhtyui;
+            }
+            
+            associated concepts {
+            	Class
+            }
+        }
+        
+        create "createAttribute(Class owner, float x, float y)" {
+            metaclass: Attribute;
+            classQualifiedName : "ControllerFactory.INSTANCE.getClassController()";
+        }
+        associated concepts {
+            	Attribute
+            }
+    }
+         
+}  

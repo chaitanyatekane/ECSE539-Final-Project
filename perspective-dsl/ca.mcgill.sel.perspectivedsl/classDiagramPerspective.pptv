@@ -1,0 +1,49 @@
+
+perspective classDiagramPerspective {
+    default Concept_Model;
+     
+    display name "Perspective 1";
+      
+    languages {
+    	existing language ClassDiagram {
+            rootPackage "ca.mcgill.sel.classdiagram";
+            packageClassName CdmPackage;
+            roleName Domain_Model;
+            hidden concepts {
+            	Class
+            }
+        } 
+        
+    }
+          
+    actions {
+    	// class diagram language 
+        action redefined Domain_Model "ClassDiagram.Class.add";
+        action redefined Domain_Model "ClassDiagram.Class.edit";
+        action redefined Domain_Model "ClassDiagram.Class.delete";
+        action re_expose Domain_Model "ClassDiagram.Note.add";
+        action re_expose Domain_Model "ClassDiagram.Note.edit";
+        action re_expose Domain_Model "ClassDiagram.Note.delete";
+        action re_expose Domain_Model "ClassDiagram.Association.add";
+        action re_expose Domain_Model "ClassDiagram.Association.edit";
+        action re_expose Domain_Model "ClassDiagram.Association.delete";
+        action re_expose Domain_Model "ClassDiagram.NaryAssociation.add";
+        action re_expose Domain_Model "ClassDiagram.NaryAssociation.delete";
+        action redefined Domain_Model "ClassDiagram.Classifier.Attribute.add";
+        action redefined Domain_Model "ClassDiagram.Classifier.Attribute.edit";
+        action redefined Domain_Model "ClassDiagram.Classifier.Attribute.delete";
+        action re_expose Domain_Model "ClassDiagram.CDEnum.add";
+        action re_expose Domain_Model "ClassDiagram.CDEnum.edit";
+        action re_expose Domain_Model "ClassDiagram.CDEnum.delete";
+        action re_expose Domain_Model "ClassDiagram.StructuralFeature.static.edit";
+        action re_expose Domain_Model "ClassDiagram.VisibilityType.edit";
+        
+       
+    }
+    
+   
+       
+    
+    
+    }
+  

@@ -19,7 +19,7 @@ class PerspectiveSpecification {
 	 	
 	 	package ca.mcgill.sel.perspective.«perspective.name.toLowerCase.replaceAll("\\s", "")»;
 	 	
-	 	import java.util.List;
+	 	import java.util.*;
 	 	import org.eclipse.emf.ecore.EClass;
 	 	import org.eclipse.emf.ecore.EObject;
 	 	import org.eclipse.emf.ecore.EReference;
@@ -156,24 +156,39 @@ class PerspectiveSpecification {
 	 	       
 	 	    private static void addPerspectiveHiddenConcepts(COREPerspective perspective){
 	 	    	«FOR language : perspective.languages»
-	 	    		// create empty set	        	
-	 	        	// while list not empty
-	 	        	// add children to list, make curr hidden, remove curr from list
-	 	        	// create empty set	 
+	 	    		// list of all concepts
+	 	    		List<HiddenConcept> children = new ArrayList();
+	 	    		// queue for recursion
+	 	    		List<HiddenConcept> queue = new ArrayList(); 
 	 	        	«FOR hiddenConcept : language.hiddenConcepts»
-	 	        		// add concepts to set
-	 	        	«ENDFOR» 	  
-	 	        	
-	 	        	«FOR hiddenConcept : language.hiddenConcepts»
-	 	        		 	      // add concepts to set
-	 	        	«ENDFOR» 
-	 	        	      	
+	 	        		children.add(hiddenConcept);
+	 	        		queue.add(hiddenConcept);
+	 	        	«ENDFOR» 	
+	 	        	  
+	 	        	while(!queue.isEmpty()){
+        	            HiddenConcept curr = queue.getFirst();
+        	            if (!children.contains(curr)){
+        	                children.add(curr);
+        	            }
+        	            for (child : curr.childConcepts){
+        	                if (!children.contains(child)){
+        	                    queue.add(child);
+        	                }
+        	            }
+        	            queue.remove(curr);
+        	        }
+        	        
+        	    // TODO: ADD ASSOCIATION BETWEEN PERSPECTIVE AND CONCEPT
+        	    for (HiddenConcept concept : children){
+        	    	perspective.getHiddenConcepts().add(concept);
+        	    }
+        	    	 	    		 	        		
+        	    // TODO: CREATE HIDDEN ACTION FOR ALL ASSOCIATED ACTIONS
+	 	            	
 	 	    		 	        	
 	 	    	«ENDFOR»
 	 	    	
-	 	    	// TODO: ADD ASSOCIATION BETWEEN PERSPECTIVE AND CONCEPT
-	 	    		 	        		
-	 	    	// TODO: CREATE HIDDEN ACTION FOR ALL ASSOCIATED ACTIONS
+	
 	 	    	
 	 	    	
 	 	    		

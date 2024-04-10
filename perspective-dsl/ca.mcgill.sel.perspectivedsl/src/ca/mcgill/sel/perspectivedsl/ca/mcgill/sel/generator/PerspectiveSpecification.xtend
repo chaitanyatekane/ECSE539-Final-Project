@@ -1,15 +1,15 @@
-package ca.mcgill.sel.perspectivedsl.ca.mcgill.sel.generator
+package ca.mcgill.sel.perspectivedsl.generator
 
-import ca.mcgill.sel.perspectivedsl.ca.mcgill.sel.perspectiveDSL.Perspective
-import ca.mcgill.sel.perspectivedsl.ca.mcgill.sel.perspectiveDSL.LanguageElementMapping
-import ca.mcgill.sel.perspectivedsl.ca.mcgill.sel.perspectiveDSL.Cardinality
-import ca.mcgill.sel.perspectivedsl.ca.mcgill.sel.perspectiveDSL.Language
-import ca.mcgill.sel.perspectivedsl.ca.mcgill.sel.perspectiveDSL.PerspectiveAction
-import ca.mcgill.sel.perspectivedsl.ca.mcgill.sel.perspectiveDSL.PerspectiveActionType
-import ca.mcgill.sel.perspectivedsl.ca.mcgill.sel.perspectiveDSL.RedefinedCreateAction
-import ca.mcgill.sel.perspectivedsl.ca.mcgill.sel.perspectiveDSL.RedefinedDeleteAction
-import ca.mcgill.sel.perspectivedsl.ca.mcgill.sel.perspectiveDSL.HiddenAction
-import ca.mcgill.sel.perspectivedsl.ca.mcgill.sel.perspectiveDSL.CreateMapping
+import ca.mcgill.sel.perspectivedsl.perspectiveDSL.Perspective
+import ca.mcgill.sel.perspectivedsl.perspectiveDSL.LanguageElementMapping
+import ca.mcgill.sel.perspectivedsl.perspectiveDSL.Cardinality
+import ca.mcgill.sel.perspectivedsl.perspectiveDSL.Language
+import ca.mcgill.sel.perspectivedsl.perspectiveDSL.PerspectiveAction
+import ca.mcgill.sel.perspectivedsl.perspectiveDSL.PerspectiveActionType
+import ca.mcgill.sel.perspectivedsl.perspectiveDSL.RedefinedCreateAction
+import ca.mcgill.sel.perspectivedsl.perspectiveDSL.RedefinedDeleteAction
+import ca.mcgill.sel.perspectivedsl.perspectiveDSL.HiddenAction
+import ca.mcgill.sel.perspectivedsl.perspectiveDSL.CreateMapping
 
 class PerspectiveSpecification {
 	
@@ -157,21 +157,27 @@ class PerspectiveSpecification {
 	 	    private static void addPerspectiveHiddenConcepts(COREPerspective perspective){
 	 	    	«FOR language : perspective.languages»
 	 	    		// list of all concepts
-	 	    		List<HiddenConcept> children = new ArrayList();
+	 	    		ArrayList<CORELanguageConcept> hiddenConcepts = new ArrayList();
 	 	    		// queue for recursion
-	 	    		List<HiddenConcept> queue = new ArrayList(); 
+	 	    		List<CORELanguageConcept> queue = new ArrayList(); 
 	 	        	«FOR hiddenConcept : language.hiddenConcepts»
-	 	        		children.add(hiddenConcept);
-	 	        		queue.add(hiddenConcept);
+	 	        		
+	 	        		for (CORELanguageConcept concept : perspective.getLanguages().get("«language.roleName»").getConcepts()) {
+	 	        			if (concept.getName() == "«hiddenConcept.name»") {
+	 	        				hiddenConcepts.add(concept);
+	 	        				queue.add(concept);
+	 	        			}
+	 	        		}
+	 	        		
 	 	        	«ENDFOR» 	
 	 	        	  
 	 	        	while(!queue.isEmpty()){
-        	            HiddenConcept curr = queue.getFirst();
-        	            if (!children.contains(curr)){
-        	                children.add(curr);
+        	            CORELanguageConcept curr = queue.get(0);
+        	            if (!hiddenConcepts.contains(curr)){
+        	                hiddenConcepts.add(curr);
         	            }
-        	            for (child : curr.childConcepts){
-        	                if (!children.contains(child)){
+        	            for (CORELanguageConcept child : curr.getChildConcepts()){
+        	                if (!hiddenConcepts.contains(child)){
         	                    queue.add(child);
         	                }
         	            }
@@ -179,11 +185,11 @@ class PerspectiveSpecification {
         	        }
         	        
         	    // TODO: ADD ASSOCIATION BETWEEN PERSPECTIVE AND CONCEPT
-        	    for (HiddenConcept concept : children){
+        	    for (CORELanguageConcept concept : hiddenConcepts){
         	    	perspective.getHiddenConcepts().add(concept);
         	    }
         	    	 	    		 	        		
-        	    // TODO: CREATE HIDDEN ACTION FOR ALL ASSOCIATED ACTIONS
+        	
 	 	            	
 	 	    		 	        	
 	 	    	«ENDFOR»

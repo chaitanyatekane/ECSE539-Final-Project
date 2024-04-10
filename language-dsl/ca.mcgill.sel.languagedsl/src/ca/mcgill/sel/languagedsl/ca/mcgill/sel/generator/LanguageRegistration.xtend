@@ -1,6 +1,6 @@
-package ca.mcgill.sel.languagedsl.ca.mcgill.sel.generator
+package ca.mcgill.sel.languagedsl.generator
 
-import ca.mcgill.sel.languagedsl.ca.mcgill.sel.languageDSL.Language
+import ca.mcgill.sel.languagedsl.languageDSL.Language
 
 class LanguageRegistration {
 	
@@ -24,11 +24,12 @@ class LanguageRegistration {
         import ca.mcgill.sel.commons.emf.util.AdapterFactoryRegistry;
         import ca.mcgill.sel.commons.emf.util.ResourceManager;
         import ca.mcgill.sel.core.util.CoreResourceFactoryImpl;
-        import ca.mcgill.sel.core.provider.CoreItemProviderAdapterFactory;
+        //import ca.mcgill.sel.core.provider.CoreItemProviderAdapterFactory;
         import ca.mcgill.sel.ram.ui.utils.ResourceUtils;
         import ca.mcgill.sel.core.util.COREModelUtil;
 
         import ca.mcgill.sel.core.*;
+        
 
         import «language.rootPackage».*;
 
@@ -76,12 +77,15 @@ class LanguageRegistration {
             language.setModelUtilClassName("«language.modelUtilClassName»");
 
             createLanguageElements(language);
+            
+            createLanguageConceptsAndActions(language);
 
-            createLanguageActions(language);
+            
+           
 
             langConcern.getArtefacts().add(language);
 
-            String language1FileName = "/Users/hyacinthali/workspace/TouchCORE2/touchram/ca.mcgill.sel.ram/resources/models/testlanguages/"
+            String language1FileName = "ca.mcgill.sel.ram/resources/models/testlanguages/"
                      + "«language.getName()»";
 
              try {
@@ -115,9 +119,8 @@ class LanguageRegistration {
 
             createLanguageElements(language);
             
-            createLanguageConcepts(language);
+            createLanguageConceptsAndActions(language);
 
-            createLanguageActions(language);
 
              return language;
             }
@@ -147,27 +150,43 @@ class LanguageRegistration {
 
             }
             
-            private static void createLanguageConcepts(COREExternalLanguage language) {
+            private static void createLanguageConceptsAndActions(COREExternalLanguage language) {
             
-                            «FOR concept : language.concepts»
-                                // TODO: create classdiagram core language concept
-                                
-                                CORELanguageConcept «concept.conceptName.toFirstLower»Concept = createCORELanguageConcept(language, «language.packageClassName».eINSTANCE.get«concept.conceptName»());
-                                
-            
-                                «FOR parentConcept : concept.parentConcepts»
-                                    // link child to parents
-                                    
-                                    // TODO: ADD ASSOCIATION BETWEEN CONCEPT AND PARENTCONCEPT
-                                    
-                                    «concept.conceptName.toFirstLower»Concept.getParentConcepts().add(«parentConcept.conceptName.toFirstLower»);
-                                    
+                «FOR concept : language.concepts»
+                    // TODO: create classdiagram core language concept
+                    
+                    CORELanguageConcept «concept.conceptName.toFirstLower»Concept = CoreFactory.eINSTANCE.createCORELanguageConcept();
+                    «concept.conceptName.toFirstLower»Concept.setName("«concept.conceptName»");
+                    language.getConcepts().add(«concept.conceptName.toFirstLower»Concept);
+                    
+
+                    «FOR parentConcept : concept.parentConcepts»
+                        // link child to parents
                         
-                                «ENDFOR»
+                        // TODO: ADD ASSOCIATION BETWEEN CONCEPT AND PARENTCONCEPT
+                        
+                        «concept.conceptName.toFirstLower»Concept.getParentConcepts().add(«parentConcept.conceptName.toFirstLower»Concept);
+                        
             
-                            «ENDFOR»
-            
-                        }
+                    «ENDFOR»
+
+                «ENDFOR»
+                
+                «resetCounter»
+                «FOR action : language.actions»
+                    «counter()»
+                    CORELanguageAction lAction«count» = CoreFactory.eINSTANCE.createCORELanguageAction();
+                    lAction«count».setName("«language.name».«action.metaclass».«action.methodNameAndParameters»");
+                    language.getActions().add(lAction«count»);
+                    
+                    // TODO: ADD ASSOCIATION BETWEEN ACTION AND ALL ASSOCIATED CONCEPTS
+                    «FOR concept : action.associatedConcepts»
+                    	lAction«count».getConcepts().add(«concept.conceptName.toFirstLower»Concept);
+                    «ENDFOR»
+
+                «ENDFOR»
+
+            }
             
             
 
@@ -191,32 +210,7 @@ class LanguageRegistration {
                 return coreLanguageElement;
             }
 
-            /**
-            * This method creates language actions, which can be manipulated by the perspectives
-            * which reuse the language.
-            *
-            * @author Hyacinth Ali
-            * @param language - the language
-            *
-            * @generated
-            */
-            private static void createLanguageActions(COREExternalLanguage language) {
-
-                «resetCounter»
-                «FOR action : language.actions»
-                    «counter()»
-                    CORELanguageAction lAction«count» = CoreFactory.eINSTANCE.createCORELanguageAction();
-                    lAction«count».setName("«language.name».«action.metaclass».«action.methodNameAndParameters»");
-                    language.getActions().add(lAction«count»);
-                    
-                    // TODO: ADD ASSOCIATION BETWEEN ACTION AND ALL ASSOCIATED CONCEPTS
-                    «FOR concept : action.associatedConcepts»
-                    	lAction«count».getConcepts().add(«concept»);
-                    «ENDFOR»
-
-                «ENDFOR»
-            }
-        }
+            
     '''
    }
 	
